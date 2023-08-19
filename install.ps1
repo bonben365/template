@@ -13,3 +13,11 @@ if (-not([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdenti
     Write-Warning "You need to have Administrator rights to run this script!`nPlease re-run this script as an Administrator in an elevated powershell prompt!"
     break
 }
+
+if ((Get-ExecutionPolicy) -notmatch "RemoteSigned") {
+   Set-ExecutionPolicy -ExecutionPolicy Bypass Process -Force
+}
+
+if (((Get-PSRepository -Name PSGallery).InstallationPolicy) -match "Untrusted") {
+   Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
+}
